@@ -48,3 +48,44 @@ class Queue
     attr_reader :the_queue
 
 end
+
+class Map
+
+    def initialize
+        @my_map = []
+    end
+
+    def set(key, value)
+        my_map.each_with_index do |sub_arr, idx|
+            if sub_arr[0] == key
+                my_map[idx][1] = value
+            end
+        end
+        my_map << [key, value]
+    end
+
+    def get(key)
+        my_map.each_with_index do |sub_arr, idx|
+            if sub_arr[0] == key
+                return sub_arr[1]
+            end
+        end 
+        "Key does not exist"
+    end
+
+    def delete(key)
+        my_map.each_with_index do |sub_arr, idx|
+            if sub_arr[0] == key
+                my_map.delete_at(idx)
+            end
+        end 
+    end
+
+    def show
+        arr = my_map
+        return arr
+    end
+
+    attr_reader :my_map
+
+end
