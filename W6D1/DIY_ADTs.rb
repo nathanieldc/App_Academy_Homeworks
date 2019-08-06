@@ -31,6 +31,8 @@ class Queue
 
     def enqueue(el)
         @the_queue.unshift(el)
+        num_infront = (the_queue.length - 1)
+        "#{el}, there's #{num_infront} people infront of you."
     end
 
     def dequeue
