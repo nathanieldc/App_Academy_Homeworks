@@ -1,12 +1,23 @@
 class GraphNode
 
-    attr_reader :val :neighbors
+    attr_accessor :val, :neighbors
 
     def initialize(val)
-        @val = val
-        @neighbors = []
+        self.val = val
+        self.neighbors = []
     end
+
 end
+
+def bfs(starting_node, target)
+    
+end
+
+
+
+
+
+
 
 
 ### I undertsand this is essentailly nothing, but this is all I got to before class starts in 10mins
