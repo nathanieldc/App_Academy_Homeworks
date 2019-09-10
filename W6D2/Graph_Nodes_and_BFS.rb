@@ -10,6 +10,8 @@ class GraphNode
 end
 
 def bfs(starting_node, target)
+
+    q = []
     
 end
 
