@@ -21,7 +21,7 @@ class Simon
       show_sequence
       require_sequence
       round_success_message
-      self.sequence_length += 1
+      sequence_length += 1
   end
 
   def show_sequence
