@@ -37,23 +37,6 @@ class Play
     SQL
   end
 
-# CREATE TABLE plays (
-#   id INTEGER PRIMARY KEY,
-#   title TEXT NOT NULL,
-#   year INTEGER NOT NULL,
-#   playwright_id INTEGER NOT NULL,
-
-#   FOREIGN KEY (playwright_id) REFERENCES playwrights(id)
-# );
-
-# DROP TABLE if exists playwrights;
-
-# CREATE TABLE playwrights (
-#   id INTEGER PRIMARY KEY,
-#   name TEXT NOT NULL,
-#   birth_year INTEGER
-# );
-
   def initialize(options)
     @id = options['id']
     @title = options['title']
@@ -83,4 +66,41 @@ class Play
         id = ?
     SQL
   end
+end
+
+class Playwright
+
+def self.all
+  data = PlayrightDBConnection.instance.execute("SELECT * FROM playwrights")
+  data.map { |datum| Play.new(datum) }
+end
+
+def self.find_by_name(name)
+  plays = PlayrightDBConnection.instance.execute(<<-SQL, name)
+    SELECT plays.*
+    LEFT JOIN playwrights
+    ON plays.playwright_id = playwrights.id
+    WHERE playwrights.name = ? 
+  SQL
+end
+
+def initialize(options)
+  @id = options['id']
+  @name = options['name']
+  @birth_year = options['birth_year']
+end
+
+def create 
+  raise "#{self} already in database" unless self.id
+  PlayrightDBConnection.instance.execute(<<-SQL, self.name, self.birth_year)
+    INSERT INTO
+      playwrights (name, birth_year)
+    VALUES
+      (?, ?)
+  SQL
+  self.id = PlayrightDBConnection.instance.last_insert_row_id
+end
+# Playwright#create
+# Playwright#update
+# Playwright#get_plays (returns all plays written by playwright)
 end
