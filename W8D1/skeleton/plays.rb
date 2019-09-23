@@ -20,12 +20,39 @@ class Play
   end
 
   def self.find_by_title(title)
-    PlayDBConnection.instance.execute(<<-SQL, self.title)
+    play = PlayDBConnection.instance.execute(<<-SQL, title)
     SELECT *
     FROM plays
     WHERE title = ?
     SQL
   end
+
+  def self.find_by_playwright(name)
+    play = PlayDBConnection.instance.execute(<<-SQL, name)
+    SELECT plays.*
+    FROM plays
+    LEFT JOIN playwrights
+    ON plays.playwright_id = playwrights.id
+    WHERE playwrights.name = ?  
+    SQL
+  end
+
+# CREATE TABLE plays (
+#   id INTEGER PRIMARY KEY,
+#   title TEXT NOT NULL,
+#   year INTEGER NOT NULL,
+#   playwright_id INTEGER NOT NULL,
+
+#   FOREIGN KEY (playwright_id) REFERENCES playwrights(id)
+# );
+
+# DROP TABLE if exists playwrights;
+
+# CREATE TABLE playwrights (
+#   id INTEGER PRIMARY KEY,
+#   name TEXT NOT NULL,
+#   birth_year INTEGER
+# );
 
   def initialize(options)
     @id = options['id']
